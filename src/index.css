@@ -11,3 +11,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.cal-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 80%;
+  height: 800px;
+  margin: 0 auto;
+}
+
+.cal-month {
+  text-align: center;
+  width: 50%;
+  height: 60px;
+  padding-top: 10px;
+  border-bottom: 2px solid bisque;
+  margin: 0 auto;
+}
+
+.cal-day {
+  display: grid;
+  grid: 150px / 150px 150px 150px 150px  150px 150px 150px ;
+  grid-gap:10px;
+  margin: 5px auto; 
+  justify-content: center;
+}
+
+.cal-day > div {
+  text-align: center;
+}
+
+.cal-date {
+  display: grid;
+  grid: auto;
+  grid-gap: 10px;
+}
+
+.cal-date > div {
+  border: 1px solid black;
+  height: 80px;
+  text-align: left;
+  margin: 5px;
+}
