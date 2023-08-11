@@ -12,44 +12,75 @@ code {
     monospace;
 }
 
-.cal-container {
-  border: 1px solid black;
-  border-radius: 5px;
-  width: 80%;
-  height: 800px;
+.container {
+  width: 600px;
+  background-color: antiquewhite;
+  border: 2px solid black;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   margin: 0 auto;
 }
 
-.cal-month {
+.icons {
+  display: flex;
+}
+
+.icons span {
   text-align: center;
-  width: 50%;
-  height: 60px;
-  padding-top: 10px;
-  border-bottom: 2px solid bisque;
-  margin: 0 auto;
+  margin: 0 4px 0 4px;
 }
 
-.cal-day {
-  display: grid;
-  grid: 150px / 150px 150px 150px 150px  150px 150px 150px ;
-  grid-gap:10px;
-  margin: 5px auto; 
-  justify-content: center;
+.calendar{
+  padding: 20px;
 }
-
-.cal-day > div {
+.calendar ul{
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
   text-align: center;
 }
-
-.cal-date {
-  display: grid;
-  grid: auto;
-  grid-gap: 10px;
+.calendar .days{
+  margin-bottom: 20px;
 }
-
-.cal-date > div {
-  border: 1px solid black;
-  height: 80px;
-  text-align: left;
-  margin: 5px;
+.calendar li{
+  color: #333;
+  width: calc(100% / 7);
+  font-size: 1.07rem;
+}
+.calendar .weeks li{
+  font-weight: 500;
+  cursor: default;
+}
+.calendar .days li{
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  margin-top: 30px;
+}
+.days li.inactive{
+  color: #aaa;
+}
+.days li.active{
+  color: #fff;
+}
+.days li::before{
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  height: 40px;
+  width: 40px;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.days li.active::before{
+  background: #9B59B6;
+}
+.days li:not(.active):hover::before{
+  background: #f2f2f2;
 }
