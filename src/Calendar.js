@@ -7,6 +7,7 @@ import getDay from "date-fns/getDay"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import DatePicker from "react-datepicker"
 import { Button, Form } from "react-bootstrap";
+import { days, hours, months } from "./constants";
 
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
@@ -33,9 +34,15 @@ export const Cal = () => {
 
     const [tech, setTech] = useState('')
     const [startTime, setStartTime] = useState('')
+    const [startMin, setStartMin] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [endMin, setEndMin] = useState('')
     const [startMonth, setStartMonth] = useState('')
     const [endMonth, setEndMonth] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+
+
     const techHandler = (e) => {
         setTech(e.target.value)
     }
@@ -54,6 +61,22 @@ export const Cal = () => {
 
     const endMonthHandler = (e) => {
         setEndMonth(e.target.value)
+    }
+
+    const startMinHandler = (e) => {
+        setStartMin(e.target.value)
+    }
+
+    const endMinHandler = (e) => {
+        setEndMin(e.target.value)
+    }
+
+    const startDateHandler = (e) => {
+        setStartDate(e.target.value)
+    }
+
+    const endDateHandler = (e) => {
+        setEndDate(e.target.value)
     }
 
     return (
@@ -77,90 +100,76 @@ export const Cal = () => {
                     </Form.Select> 
                 </div>
                 <div className = 'time-container'>
-                    <div className = 'time'>
-                        <Form.Label>Start Time</Form.Label>
-                        <Form.Select value = {startTime} onChange = {startTimeHandler}>
-                            <option value = '6'>6 am</option>
-                            <option value = '7'>7 am</option>
-                            <option value = '8'>8 am</option>
-                            <option value = '9'>9 am</option>
-                            <option value = '10'>10 am</option>
-                            <option value = '11'>11 am</option>
-                            <option value = '12'>12 am</option>
-                            <option value = '13'>1 pm</option>
-                            <option value = '14'>2 pm</option>
-                            <option value = '15'>3 pm</option>
-                            <option value = '16'>4 pm</option>
-                            <option value = '17'>5 pm</option>
-                            <option value = '18'>6 pm</option>
-                            <option value = '19'>7 pm</option>
-                            <option value = '20'>8 pm</option>
-                        </Form.Select>
+                    <div className = 'hour-select-form'>
+                        <div>
+                            <Form.Label>Start Time</Form.Label>
+                            <Form.Select value = {startTime} onChange = {startTimeHandler}>
+                                {hours.map((hour) => (
+                                    <option key={hour.value} value = {hour.value}>{hour.hour}</option>
+                                ))}
+                            </Form.Select>
+                        </div>
+                        <div>
+                            <Form.Select value = {startMin} onChange = {startMinHandler}>
+                                <option value = '0'>0</option>
+                                <option value = '30'>30</option>
+                            </Form.Select>
+                        </div>
                     </div>
-                    <div className = 'time'>
-                        <Form.Label>End Time</Form.Label>
-                        <Form.Select value = {endTime} onChange = {endTimeHandler}>
-                            <option value = '6'>6 am</option>
-                            <option value = '7'>7 am</option>
-                            <option value = '8'>8 am</option>
-                            <option value = '9'>9 am</option>
-                            <option value = '10'>10 am</option>
-                            <option value = '11'>11 am</option>
-                            <option value = '12'>12 am</option>
-                            <option value = '13'>1 pm</option>
-                            <option value = '14'>2 pm</option>
-                            <option value = '15'>3 pm</option>
-                            <option value = '16'>4 pm</option>
-                            <option value = '17'>5 pm</option>
-                            <option value = '18'>6 pm</option>
-                            <option value = '19'>7 pm</option>
-                            <option value = '20'>8 pm</option>
-                        </Form.Select>
+                    <div className = 'hour-select-form'>
+                        <div>
+                            <Form.Label>End Time</Form.Label>
+                            <Form.Select value = {endTime} onChange = {endTimeHandler}>
+                                {hours.map((hour) => (
+                                        <option key={hour.value} value = {hour.value}>{hour.hour}</option>
+                                    ))}
+                            </Form.Select>
+                        </div>
+                        <div>
+                            <Form.Select value = {endMin} onChange = {endMinHandler}>
+                                <option value = '0'>0</option>
+                                <option value = '30'>30</option>
+                            </Form.Select>
+                        </div>
                     </div>
                 </div>
                 <div className = 'month-container'>
-                    <div className = 'month'>
+                    <div>
                         <Form.Label>Start Month</Form.Label>
                         <Form.Select value = {startMonth} onChange = {startMonthHandler}>
-                            <option value = '0'>January</option>
-                            <option value = '1'>Feburary</option>
-                            <option value = '2'>March</option>
-                            <option value = '3'>April</option>
-                            <option value = '4'>May</option>
-                            <option value = '5'>June</option>
-                            <option value = '6'>July</option>
-                            <option value = '7'>August</option>
-                            <option value = '8'>September</option>
-                            <option value = '9'>October</option>
-                            <option value = '10'>November</option>
-                            <option value = '11'>December</option>
+                           {months.map((month) => (
+                                <option key = {month.value} value = {month.value}>{month.month}</option>
+                           ))}
                         </Form.Select>
                     </div>
-                    <div className = 'month'>
+                    <div>
                         <Form.Label>End Month</Form.Label>
                         <Form.Select value = {endMonth} onChange = {endMonthHandler}>
-                            <option value = '0'>January</option>
-                            <option value = '1'>Feburary</option>
-                            <option value = '2'>March</option>
-                            <option value = '3'>April</option>
-                            <option value = '4'>May</option>
-                            <option value = '5'>June</option>
-                            <option value = '6'>July</option>
-                            <option value = '7'>August</option>
-                            <option value = '8'>September</option>
-                            <option value = '9'>October</option>
-                            <option value = '10'>November</option>
-                            <option value = '11'>December</option>
+                            {months.map((month) => (
+                                    <option key = {month.value} value = {month.value}>{month.month}</option>
+                            ))}
                         </Form.Select>
                     </div>
                 </div>
-                <div>
-                    <Form>
-                        <Form.Label>Type start date</Form.Label>
-                        <Form.Control type = 'integer' placeholder="enter day"></Form.Control>
-                    </Form>
+                <div className = 'date-container'>
+                    <div className = 'date'>
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Select value = {startDate} onChange = {startDateHandler}>
+                            {days.map((day) => (
+                                <option key = {day} value = {day}>{day}</option>
+                            ))}
+                        </Form.Select>
+                    </div>
+                    <div classname = 'date'>
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Select value = {endDate} onChange = {endDateHandler}>
+                            {days.map((day) => (
+                                <option key = {day} value = {day}>{day}</option>
+                            ))}
+                        </Form.Select>
+                    </div>
                 </div>
-                {tech} {startTime} {endTime} {startMonth} {endMonth}
+                
             </div>
             
         </div>

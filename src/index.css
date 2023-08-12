@@ -36,6 +36,16 @@ code {
   margin: 10px;
 }
 
-.time-container, .month-container {
+.time-container, .month-container, .date-container {
   display: flex;
+}
+
+.time-container ,.date-container,.month-container {
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.hour-select-form {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
 }
