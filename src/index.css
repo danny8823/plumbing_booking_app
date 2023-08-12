@@ -11,13 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.calendar {
-  width: 60%;
-  height: 800px;
-  border: 2px solid black;
+.container {
+  display: flex;
+  margin-top: 40px;
+}
+.calendar-container {
+  width: 850px;
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 15px;
   margin: 0 auto;
 }
-.week-day {
 
+.form-container {
+  width: 400px;
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
 }
 
+.time, .month {
+  width: 150px;
+  margin: 10px;
+}
+
+.time-container, .month-container {
+  display: flex;
+}
