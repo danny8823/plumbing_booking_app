@@ -29,6 +29,7 @@ export const EventForm = () => {
     }
 
     const startMonthHandler = (e) => {
+        console.log(e.target.value)
         setStartMonth(e.target.value)
     }
 
@@ -57,6 +58,24 @@ export const EventForm = () => {
         setDescription('')
         setAddress('')
     }
+
+    const start_date = new Date(2023, startMonth, Number(startDate), Number(startTime), Number(startMin),0)
+    console.log("static",new Date(2023,1,1,20,0,0))
+    console.log('dynamic', start_date)
+    console.log(Number(startMonth))
+    const date_formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year:'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    })
+
+    const formattedDate = date_formatter.format(start_date)
+
+    
     return (
         <div className = 'form-container'>
             <div>
@@ -89,7 +108,7 @@ export const EventForm = () => {
                     <Form.Label>End Time</Form.Label>
                     <Form.Select value = {endTime} onChange = {endTimeHandler}>
                         {hours.map((hour) => (
-                                <option key={hour.value} value = {hour.value}>{hour.hour}</option>
+                                <option key={hour.value} value = {hour.hour}>{hour.hour}</option>
                             ))}
                     </Form.Select>
                 </div>
@@ -129,7 +148,7 @@ export const EventForm = () => {
                     </Form.Select>
                 </div>
                 <div classname = 'date'>
-                    <Form.Label>Start Date</Form.Label>
+                    <Form.Label>End Date</Form.Label>
                     <Form.Select value = {endDate} onChange = {endDateHandler}>
                         {days.map((day) => (
                                 <option key = {day} value = {day}>{day}</option>
@@ -151,6 +170,7 @@ export const EventForm = () => {
                     </div>
                 <div>
                     {tech} will be {address} doing {description} from {startTime}:{startMin} to {endTime}:{endMin}
+                    month {startMonth}
                 </div>
             </div>
     )

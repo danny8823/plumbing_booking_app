@@ -99,51 +99,51 @@ export const hours = [
 
 export const months = [
     {
-        value : 0,
+        value : 1,
         month : 'Janurary'
     },
     {
-        value : 1,
+        value : 2,
         month : 'Feburary'
     },
     {
-        value : 2,
+        value : 3,
         month : 'March'
     },
     {
-        value : 3,
+        value : 4,
         month : 'April'
     },
     {
-        value : 4,
+        value : 5,
         month : 'May'
     },
     {
-        value : 5,
+        value : 6,
         month : 'June'
     },
     {
-        value : 6,
+        value : 7,
         month : 'July'
     },
     {
-        value : 7,
+        value : 8,
         month : 'August'
     },
     {
-        value : 8,
+        value : 9,
         month : 'September'
     },
     {
-        value : 9,
+        value : 10,
         month : 'October'
     },
     {
-        value : 10,
+        value : 11,
         month : 'November'
     },
     {
-        value : 11,
+        value : 12,
         month : 'December'
     },
 ]
