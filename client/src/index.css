@@ -32,21 +32,6 @@ code {
   margin: 0 5px 0 5px;
 }
 
-.time, .month {
-  width: 150px;
-  margin: 10px;
-}
-
-.time-container, .month-container, .date-container {
+.time-date-container {
   display: flex;
-}
-
-.time-container ,.date-container,.month-container {
-  justify-content: space-between;
-  margin-top: 10px;
-}
-.hour-select-form {
-  display: flex;
-  flex-direction: column;
-  width: 120px;
 }

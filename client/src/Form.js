@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import { Button, Form } from "react-bootstrap";
 import { days, hours, months } from "./constants";
 import { SubmitForm } from "./Submit";
+import { set } from "date-fns";
 
 export const EventForm = () => {
     
@@ -14,9 +15,12 @@ export const EventForm = () => {
     const [endMonth, setEndMonth] = useState('end month')
     const [startDate, setStartDate] = useState('start date')
     const [endDate, setEndDate] = useState('end date')
-    const [address, setAddress] = useState('address')
+    const [title, setTitle] = useState('title')
     const [description, setDescription] = useState('description')
-
+    const [allDay, setAllDay] = useState(false)
+    const [hide, setHide] = useState({
+        display: 'flex'
+    })
     const techHandler = (e) => {
         setTech(e.target.value)
     }
@@ -54,46 +58,70 @@ export const EventForm = () => {
         setEndDate(e.target.value)
     }
 
-    const addressFormHandler = (e) => {
+    const titleFormHandler = (e) => {
         e.preventDefault()
-        setAddress(e.target.value)
+        setTitle(e.target.value)
     }
 
     const descFormHandler = (e) => {
         setDescription(e.target.value)
     }
 
+    const handleSwitch = () => {
+        setAllDay(prevValue => !prevValue)
+        setHide(prevState => ({
+            ...prevState,
+            display: prevState.display === 'flex' ? 'none' : 'flex'
+          }));
+    }
+
+    console.log(allDay)
     return (
         <div className = 'form-container'>
-            <div>
-                <Form.Label>Select Technician</Form.Label>
-                <Form.Select value = {tech} onChange = {techHandler}>
-                    <option>Pick a technician</option>
-                    <option value="John">John</option>
-                    <option value="David">David</option>
-                    <option value="Chris">Chris</option>
-                </Form.Select> 
-            </div>
-            <div className = 'time-container'>
-                <div className = 'hour-select-form'>
-                    <div>
-                        <Form.Label>Start Time</Form.Label>
-                        <Form.Select value = {startTime} onChange = {startTimeHandler}>
-                            {hours.map((hour) => (
-                                <option key={hour.value} value = {hour.value}>{hour.hour}</option>
-                            ))}
-                        </Form.Select>
-                    </div>
-                    <div>
-                        <Form.Select value = {startMin} onChange = {startMinHandler}>
-                            <option value = '0'>0</option>
-                            <option value = '30'>30</option>
-                        </Form.Select>
-                    </div>
-                </div>
-            <div className = 'hour-select-form'>
+            <Form>
+                <Form.Check
+                    type='switch'
+                    id='all-day'
+                    label='Book for all day, today'
+                    checked = {allDay}
+                    onChange = {handleSwitch}/>
+            </Form>
+            <div className = 'time-date-container' style ={hide}>
                 <div>
-                    <Form.Label>End Time</Form.Label>
+                    <Form.Label>Start hour</Form.Label>
+                    <Form.Select value = {startTime} onChange = {startTimeHandler}>
+                        {hours.map((hour) => (
+                            <option key={hour.value} value = {hour.value}>{hour.hour}</option>
+                        ))}
+                    </Form.Select>
+                </div>
+                <div>
+                    <Form.Label>Minute</Form.Label>
+                    <Form.Select value = {startMin} onChange = {startMinHandler}>
+                        <option value = '0'>0</option>
+                        <option value = '30'>30</option>
+                    </Form.Select>
+                </div>
+                <div>
+                    <Form.Label>Month</Form.Label>
+                    <Form.Select value = {startMonth} onChange = {startMonthHandler}>
+                        {months.map((month) => (
+                            <option key = {month.value} value = {month.value}>{month.month}</option>
+                        ))}
+                    </Form.Select>
+                </div>
+                <div>
+                    <Form.Label>Start Date</Form.Label>
+                    <Form.Select value = {startDate} onChange = {startDateHandler}>
+                        {days.map((day) => (
+                            <option key = {day} value = {day}>{day}</option>
+                        ))}
+                    </Form.Select>
+                </div>
+            </div>
+            <div className = 'time-date-container' style ={hide}>
+                <div>
+                    <Form.Label>End hour</Form.Label>
                     <Form.Select value = {endTime} onChange = {endTimeHandler}>
                         {hours.map((hour) => (
                                 <option key={hour.value} value = {hour.value}>{hour.hour}</option>
@@ -101,20 +129,10 @@ export const EventForm = () => {
                     </Form.Select>
                 </div>
                 <div>
+                    <Form.Label>Minute</Form.Label>
                     <Form.Select value = {endMin} onChange = {endMinHandler}>
                         <option value = '0'>0</option>
                         <option value = '30'>30</option>
-                    </Form.Select>
-                </div>
-            </div>
-        </div>
-            <div className = 'month-container'>
-                <div>
-                    <Form.Label>Start Month</Form.Label>
-                    <Form.Select value = {startMonth} onChange = {startMonthHandler}>
-                        {months.map((month) => (
-                            <option key = {month.value} value = {month.value}>{month.month}</option>
-                        ))}
                     </Form.Select>
                 </div>
                 <div>
@@ -125,40 +143,30 @@ export const EventForm = () => {
                         ))}
                     </Form.Select>
                 </div>
-            </div>
-            <div className = 'date-container'>
-                <div className = 'date'>
-                    <Form.Label>Start Date</Form.Label>
-                    <Form.Select value = {startDate} onChange = {startDateHandler}>
-                        {days.map((day) => (
-                            <option key = {day} value = {day}>{day}</option>
-                        ))}
-                    </Form.Select>
-                </div>
-                <div classname = 'date'>
+                <div>
                     <Form.Label>End Date</Form.Label>
                     <Form.Select value = {endDate} onChange = {endDateHandler}>
                         {days.map((day) => (
                                 <option key = {day} value = {day}>{day}</option>
                             ))}
-                        </Form.Select>
-                    </div>
-                </div>
-                    <div>
-                        <Form onChange={addressFormHandler}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Address</Form.Label>
-                                <Form.Control type="input" placeholder="address" value ={address}/>
-                            </Form.Group>
-                        </Form>
-                        <Form onChange={descFormHandler}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control type="input" placeholder="description" value = {description} />
-                            </Form.Group>
-                        </Form>
-                    </div>
-                    <SubmitForm 
+                    </Form.Select>
+                </div>           
+            </div>
+            <div>
+                <Form onChange={titleFormHandler}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control type="input" placeholder="title" value ={title}/>
+                    </Form.Group>
+                </Form>
+                <Form onChange={descFormHandler}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control type="input" placeholder="description" value = {description} />
+                    </Form.Group>
+                </Form>
+            </div>
+            <SubmitForm 
                         tech = {tech}
                         start = {startDate}
                         end = {endDate}
@@ -167,10 +175,13 @@ export const EventForm = () => {
                         endtime = {endTime}
                         endMin = {endMin}
                         desc = {description}
-                        title = {address}
+                        title = {title}
                         startmonth = {startMonth}
                         endmonth = {endMonth}
-                    />
-            </div>
+                        allDay = {allDay}
+            />             
+        </div>
+                    
+       
     )
 }

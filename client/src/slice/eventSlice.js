@@ -10,9 +10,11 @@ export const fetchEvents = createAsyncThunk('get/events', async ()=> {
     }
 })
 
-export const postEvents = createAsyncThunk('post/events', async () => {
+export const postEvents = createAsyncThunk('post/events', async ({title,start,end,desc}) => {
     try {
-        const {data} = await axios.post('/api/')
+        const {data} = await axios.post('/api/', {
+            title,start,end,desc
+        })
         return data
     } catch(error) {
         throw new Error(error.message)
