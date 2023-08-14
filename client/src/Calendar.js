@@ -7,6 +7,7 @@ import getDay from "date-fns/getDay"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import { EventForm } from "./Form";
 import axios from 'axios'
+import { Button } from "react-bootstrap";
 
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
@@ -23,26 +24,17 @@ const localizer = dateFnsLocalizer({
 
 
 export const Cal = () => {
-
     const [event, setEvents] = useState(undefined)
-
+    
     useEffect(() => {
         const fetchEvents = async() => {
             const {data} = await axios.get('/api/')
             setEvents(data)
-    }
-    fetchEvents()
+        }
+        fetchEvents()
+    
     },[])
 
-    const events = [
-        {
-            title: "Big Meeting",
-            start: new Date(2023,8,1,20,0,0),
-            end: new Date(2023,8,1,22,30,0),
-            desc: 'a really big meeting with really big people in a really big room'
-        },
-        
-    ]
 
     if(!event) {
         return <h1>Loading</h1>
@@ -56,6 +48,7 @@ export const Cal = () => {
             desc: e.description
         }
     ))
+
     return (
         <>        
         <div className = 'container'>
