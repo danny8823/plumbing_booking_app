@@ -1,20 +1,21 @@
 import React,{useState} from "react";
 import { Button, Form } from "react-bootstrap";
 import { days, hours, months } from "./constants";
+import { SubmitForm } from "./Submit";
 
 export const EventForm = () => {
     
-    const [tech, setTech] = useState('')
-    const [startTime, setStartTime] = useState('')
-    const [startMin, setStartMin] = useState('')
-    const [endTime, setEndTime] = useState('')
-    const [endMin, setEndMin] = useState('')
-    const [startMonth, setStartMonth] = useState('')
-    const [endMonth, setEndMonth] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [address, setAddress] = useState('')
-    const [description, setDescription] = useState('')
+    const [tech, setTech] = useState('tech')
+    const [startTime, setStartTime] = useState('start time')
+    const [startMin, setStartMin] = useState(0)
+    const [endTime, setEndTime] = useState('end time')
+    const [endMin, setEndMin] = useState(0)
+    const [startMonth, setStartMonth] = useState('start month')
+    const [endMonth, setEndMonth] = useState('end month')
+    const [startDate, setStartDate] = useState('start date')
+    const [endDate, setEndDate] = useState('end date')
+    const [address, setAddress] = useState('address')
+    const [description, setDescription] = useState('description')
 
     const techHandler = (e) => {
         setTech(e.target.value)
@@ -53,34 +54,21 @@ export const EventForm = () => {
         setEndDate(e.target.value)
     }
 
-    const formHandler = (e) => {
+    const addressFormHandler = (e) => {
         e.preventDefault()
-        setDescription('')
-        setAddress('')
+        setAddress(e.target.value)
     }
 
-    const start_date = new Date(2023, startMonth, Number(startDate), Number(startTime), Number(startMin),0)
-    console.log("static",new Date(2023,1,1,20,0,0))
-    console.log('dynamic', start_date)
-    console.log(Number(startMonth))
-    const date_formatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Los_Angeles',
-        year:'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    })
+    const descFormHandler = (e) => {
+        setDescription(e.target.value)
+    }
 
-    const formattedDate = date_formatter.format(start_date)
-
-    
     return (
         <div className = 'form-container'>
             <div>
                 <Form.Label>Select Technician</Form.Label>
                 <Form.Select value = {tech} onChange = {techHandler}>
+                    <option>Pick a technician</option>
                     <option value="John">John</option>
                     <option value="David">David</option>
                     <option value="Chris">Chris</option>
@@ -108,7 +96,7 @@ export const EventForm = () => {
                     <Form.Label>End Time</Form.Label>
                     <Form.Select value = {endTime} onChange = {endTimeHandler}>
                         {hours.map((hour) => (
-                                <option key={hour.value} value = {hour.hour}>{hour.hour}</option>
+                                <option key={hour.value} value = {hour.value}>{hour.hour}</option>
                             ))}
                     </Form.Select>
                 </div>
@@ -157,21 +145,32 @@ export const EventForm = () => {
                     </div>
                 </div>
                     <div>
-                        <Form onSubmit={formHandler}>
+                        <Form onChange={addressFormHandler}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Address</Form.Label>
-                                <Form.Control type="input" placeholder="address" value ={address} onChange={(e) => setAddress(e.target.value)}/>
+                                <Form.Control type="input" placeholder="address" value ={address}/>
                             </Form.Group>
+                        </Form>
+                        <Form onChange={descFormHandler}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Description</Form.Label>
-                                <Form.Control type="input" placeholder="description" value = {description} onChange={(e) => setDescription(e.target.value)}/>
+                                <Form.Control type="input" placeholder="description" value = {description} />
                             </Form.Group>
                         </Form>
                     </div>
-                <div>
-                    {tech} will be {address} doing {description} from {startTime}:{startMin} to {endTime}:{endMin}
-                    month {startMonth}
-                </div>
+                    <SubmitForm 
+                        tech = {tech}
+                        start = {startDate}
+                        end = {endDate}
+                        starttime={startTime}
+                        startMin = {startMin}
+                        endtime = {endTime}
+                        endMin = {endMin}
+                        desc = {description}
+                        title = {address}
+                        startmonth = {startMonth}
+                        endmonth = {endMonth}
+                    />
             </div>
     )
 }
