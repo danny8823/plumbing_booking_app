@@ -13,7 +13,8 @@ code {
 }
 .container {
   display: flex;
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 .calendar-container {
   width: 850px;
@@ -34,4 +35,14 @@ code {
 
 .time-date-container {
   display: flex;
+}
+
+.display-container {
+  margin: 0 auto;
+  width: 1300px;
+  height: 150px;
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
 }

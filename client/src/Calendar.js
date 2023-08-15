@@ -10,6 +10,7 @@ import axios from 'axios'
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "./slice/eventSlice";
+import { EventDisplay } from "./Display";
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
 }
@@ -25,16 +26,22 @@ const localizer = dateFnsLocalizer({
 
 
 export const Cal = () => {
+    const [displayEvent, setDisplayEvent] = useState('')
     const dispatch = useDispatch()
     const events = useSelector((state) => state.events)
     
+
     useEffect(() => {
         dispatch(fetchEvents())
     },[dispatch])
 
-    const handleSelectEvent = useCallback(
-            (event) => window.alert(event.title),[]
-        )
+    // const handleSelectEvent = useCallback(
+    //         (event) => window.alert(event.title),[]
+    // )
+
+    const handleSelectEvent = (e) => {
+        setDisplayEvent(e)
+    }
 
     if(events[0] === undefined) {
         return <h1>Loading</h1>
@@ -49,27 +56,31 @@ export const Cal = () => {
         }
     ))
        
-    
-
+    // const doubleClickHandle = (e) => {
+    //     setDisplayEvent(e)
+    // }
+ 
 
     return (
         <>        
-        <div className = 'container'>
-            <div className = 'calendar-container'>
-                <Calendar 
-                localizer={localizer}
-                defaultView={Views.WEEK} 
-                events = {map_event}
-                onSelectEvent={handleSelectEvent} 
-                startAccessor="start" 
-                endAccessor="end"
-                selectable
-                // timeslots={6}
-                style = {{ height:500, margin: "50px"}}
-                 />
+            <div className = 'container'>
+                <div className = 'calendar-container'>
+                    <Calendar 
+                    localizer={localizer}
+                    defaultView={Views.WEEK} 
+                    events = {map_event}
+                    onSelectEvent={handleSelectEvent} 
+                    startAccessor="start" 
+                    endAccessor="end"
+                    selectable
+                    // onDoubleClickEvent={doubleClickHandle}
+                    // timeslots={6}
+                    style = {{ height:500, margin: "50px"}}
+                    />
+                </div>
+                <EventForm/>
             </div>
-            <EventForm/>
-        </div>
+            <EventDisplay display = {displayEvent}/>
         </>
     )
 }
