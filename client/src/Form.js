@@ -6,7 +6,6 @@ import { set } from "date-fns";
 
 export const EventForm = () => {
     
-    const [tech, setTech] = useState('tech')
     const [startTime, setStartTime] = useState('start time')
     const [startMin, setStartMin] = useState(0)
     const [endTime, setEndTime] = useState('end time')
@@ -21,9 +20,6 @@ export const EventForm = () => {
     const [hide, setHide] = useState({
         display: 'flex'
     })
-    const techHandler = (e) => {
-        setTech(e.target.value)
-    }
 
     const startTimeHandler = (e) => {
         setStartTime(e.target.value)
@@ -34,7 +30,6 @@ export const EventForm = () => {
     }
 
     const startMonthHandler = (e) => {
-        console.log(e.target.value)
         setStartMonth(e.target.value)
     }
 
@@ -167,7 +162,6 @@ export const EventForm = () => {
                 </Form>
             </div>
             <SubmitForm 
-                        tech = {tech}
                         start = {startDate}
                         end = {endDate}
                         starttime={startTime}

@@ -9,8 +9,9 @@ import { EventForm } from "./Form";
 import axios from 'axios'
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEvents } from "./slice/eventSlice";
+import { fetchEvents, fetchSingleEvent } from "./slice/eventSlice";
 import { EventDisplay } from "./Display";
+import { deleteEvent } from "./slice/eventSlice";
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
 }
@@ -27,20 +28,27 @@ const localizer = dateFnsLocalizer({
 
 export const Cal = () => {
     const [displayEvent, setDisplayEvent] = useState('')
+
     const dispatch = useDispatch()
-    const events = useSelector((state) => state.events)
-    
+
+    const events = useSelector((state) => state.events.events)
+    const event = useSelector((state) => state.events.single_event)
+
+    const dateFormatter = (date) => {
+        const dateData = new Date(date)
+        return dateData.toLocaleString()
+    }
+
+    const buttonHandler = (title) => {
+        dispatch(deleteEvent({title: title}))
+    }
 
     useEffect(() => {
         dispatch(fetchEvents())
     },[dispatch])
 
-    // const handleSelectEvent = useCallback(
-    //         (event) => window.alert(event.title),[]
-    // )
-
     const handleSelectEvent = (e) => {
-        setDisplayEvent(e)
+        dispatch(fetchSingleEvent(e.title))
     }
 
     if(events[0] === undefined) {
@@ -54,13 +62,8 @@ export const Cal = () => {
             end: new Date(e.endDate),
             desc: e.description
         }
-    ))
-       
-    // const doubleClickHandle = (e) => {
-    //     setDisplayEvent(e)
-    // }
- 
-
+    ))   
+    console.log(event)
     return (
         <>        
             <div className = 'container'>
@@ -80,7 +83,50 @@ export const Cal = () => {
                 </div>
                 <EventForm/>
             </div>
-            <EventDisplay display = {displayEvent}/>
+            {/* <EventDisplay display = {displayEvent}/> */}
+            {/* <div className = 'display-container'>
+                    {event ? 
+                    <div>
+                        <p>{event.title}</p>
+                        <p>{event.desc}</p>
+                       
+                            {event.startDate && event.endDate && (
+                                 <small>
+                                From {dateFormatter(event.startDate)} to {dateFormatter(event.endDate)}
+                                </small>
+                            )}
+                            
+                    
+                        <Button variant="secondary" onClick={() => buttonHandler(event.title)}>
+                                Delete
+                        </Button>
+                    </div>: (
+                        <p>No event selected</p>
+                    )}
+            </div> */}
+            <div className="display-container">
+                {event ? (
+                    // If an event is selected, display its details
+                    <div>
+                    <p>{event.title}</p>
+                    <p>{event.desc}</p>
+                    {event.startDate && event.endDate ? (
+                        // Check if startDate and endDate are available
+                        <>
+                            <small>
+                            From {dateFormatter(event.startDate)} to {dateFormatter(event.endDate)}
+                            </small>
+                            <Button variant="secondary" onClick={() => buttonHandler(event.title)}>
+                            Delete
+                            </Button>
+                        </>
+                    ) : <p>No event selected</p>}
+                    </div>
+                ) : (
+                    // If no event is selected, display a message
+                    null
+                )}
+            </div>
         </>
     )
 }

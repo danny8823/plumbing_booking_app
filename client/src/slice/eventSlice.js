@@ -10,6 +10,15 @@ export const fetchEvents = createAsyncThunk('get/events', async ()=> {
     }
 })
 
+export const fetchSingleEvent = createAsyncThunk('get/event', async(title) => {
+    try {
+        const { data } = await axios.get(`/api/${title}`)
+        return data
+    } catch (error) {
+        throw new Error(error.message)
+    }
+})
+
 export const postEvents = createAsyncThunk('post/events', async ({title,start,end,desc}) => {
     try {
         const {data} = await axios.post('/api/', {
@@ -21,16 +30,35 @@ export const postEvents = createAsyncThunk('post/events', async ({title,start,en
     }
 })
 
+export const deleteEvent = createAsyncThunk('del/events', async ({title}) => {
+    try {
+        const {data} = await axios.delete(`/api/?title=${title}`)
+        return data
+    } catch(error) {
+        throw new Error(error.message)
+    }
+})
+
 const eventSlice = createSlice({
     name: 'events',
-    initialState: {},
+    initialState: {
+        events: {},
+        single_event: {}
+    },
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchEvents.fulfilled, (state,action) => {
-            return action.payload
+            state.events = action.payload
         })
         builder.addCase(postEvents.fulfilled, (state,action) => {
-            state.push(action.payload)
+            state.events.push(action.payload)
+        })
+        builder.addCase(fetchSingleEvent.fulfilled, (state,action) => {
+            state.single_event = action.payload
+        })
+        builder.addCase(deleteEvent.fulfilled, (state,action) => {
+             const eventToDelete = action.payload
+             return state.events.filter(event => event.id !== eventToDelete)
         })
     }
 })
