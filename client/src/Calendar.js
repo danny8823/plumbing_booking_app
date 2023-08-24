@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import format from "date-fns/format"
 import parse from "date-fns/parse"
@@ -6,12 +6,12 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import { EventForm } from "./Form";
-import axios from 'axios'
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents, fetchSingleEvent } from "./slice/eventSlice";
-import { EventDisplay } from "./Display";
 import { deleteEvent } from "./slice/eventSlice";
+import { EventDisplay } from "./Display";
+
 const locales = {
     "en-US" : require("date-fns/locale/en-US")
 }
@@ -24,37 +24,35 @@ const localizer = dateFnsLocalizer({
     locales
 })
 
-
-
 export const Cal = () => {
-    const [displayEvent, setDisplayEvent] = useState('')
-
     const dispatch = useDispatch()
 
     const events = useSelector((state) => state.events.events)
-    const event = useSelector((state) => state.events.single_event)
 
-    const dateFormatter = (date) => {
-        const dateData = new Date(date)
-        return dateData.toLocaleString()
-    }
+    const [singleEvent, setSingleEvent ] = useState('')
+    // const dateFormatter = (date) => {
+    //     const dateData = new Date(date)
+    //     return dateData.toLocaleString()
+    // }
 
-    const buttonHandler = (title) => {
-        dispatch(deleteEvent({title: title}))
-    }
+    // const buttonHandler = (title) => {
+    //     dispatch(deleteEvent({title: title}))
+    // }
 
+    
     useEffect(() => {
         dispatch(fetchEvents())
+
     },[dispatch])
 
+
     const handleSelectEvent = (e) => {
-        dispatch(fetchSingleEvent(e.title))
+        setSingleEvent(e)
     }
 
     if(events[0] === undefined) {
-        return <h1>Loading</h1>
+        return <h1>hld on</h1>
     }
-
     const map_event = events.map(e => (
         {
             title: e.title,
@@ -62,8 +60,9 @@ export const Cal = () => {
             end: new Date(e.endDate),
             desc: e.description
         }
-    ))   
-    console.log(event)
+    ))
+
+
     return (
         <>        
             <div className = 'container'>
@@ -83,50 +82,7 @@ export const Cal = () => {
                 </div>
                 <EventForm/>
             </div>
-            {/* <EventDisplay display = {displayEvent}/> */}
-            {/* <div className = 'display-container'>
-                    {event ? 
-                    <div>
-                        <p>{event.title}</p>
-                        <p>{event.desc}</p>
-                       
-                            {event.startDate && event.endDate && (
-                                 <small>
-                                From {dateFormatter(event.startDate)} to {dateFormatter(event.endDate)}
-                                </small>
-                            )}
-                            
-                    
-                        <Button variant="secondary" onClick={() => buttonHandler(event.title)}>
-                                Delete
-                        </Button>
-                    </div>: (
-                        <p>No event selected</p>
-                    )}
-            </div> */}
-            <div className="display-container">
-                {event ? (
-                    // If an event is selected, display its details
-                    <div>
-                    <p>{event.title}</p>
-                    <p>{event.desc}</p>
-                    {event.startDate && event.endDate ? (
-                        // Check if startDate and endDate are available
-                        <>
-                            <small>
-                            From {dateFormatter(event.startDate)} to {dateFormatter(event.endDate)}
-                            </small>
-                            <Button variant="secondary" onClick={() => buttonHandler(event.title)}>
-                            Delete
-                            </Button>
-                        </>
-                    ) : <p>No event selected</p>}
-                    </div>
-                ) : (
-                    // If no event is selected, display a message
-                    null
-                )}
-            </div>
+            <EventDisplay event = {singleEvent}/>
         </>
     )
 }

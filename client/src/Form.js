@@ -70,7 +70,6 @@ export const EventForm = () => {
           }));
     }
 
-    console.log(allDay)
     return (
         <div className = 'form-container'>
             <Form>

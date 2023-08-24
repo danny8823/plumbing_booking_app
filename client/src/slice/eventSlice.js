@@ -19,10 +19,10 @@ export const fetchSingleEvent = createAsyncThunk('get/event', async(title) => {
     }
 })
 
-export const postEvents = createAsyncThunk('post/events', async ({title,start,end,desc}) => {
+export const postEvents = createAsyncThunk('post/events', async ({title,start,end,desc, allDay}) => {
     try {
         const {data} = await axios.post('/api/', {
-            title,start,end,desc
+            title,start,end,desc,allDay
         })
         return data
     } catch(error) {
@@ -52,9 +52,6 @@ const eventSlice = createSlice({
         })
         builder.addCase(postEvents.fulfilled, (state,action) => {
             state.events.push(action.payload)
-        })
-        builder.addCase(fetchSingleEvent.fulfilled, (state,action) => {
-            state.single_event = action.payload
         })
         builder.addCase(deleteEvent.fulfilled, (state,action) => {
              const eventToDelete = action.payload

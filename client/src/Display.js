@@ -2,10 +2,12 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import {useDispatch} from 'react-redux'
 import { deleteEvent } from './slice/eventSlice'
+
 export const EventDisplay = (props) => {
 
-    const {display} = props
+    const {title,start,end,desc} = props.event
     
+    console.log(title)
     const dispatch = useDispatch()
 
     const dateFormatter = (date) => {
@@ -17,17 +19,20 @@ export const EventDisplay = (props) => {
         dispatch(deleteEvent({title: title}))
     }
     
-    if(display.title === undefined) {
+    if(props === undefined) {
         return <div className = 'display-container'>Select event to display</div>
     }
 
     return (
         <div className = 'display-container'>
             <div>
-                <p>{display.title}</p>
-                <p>{display.desc}</p>
-                <small>From {dateFormatter(display.start)} To {dateFormatter(display.end)} </small>
-                <Button variant = 'secondary' onClick={() => buttonHandler(display.title)}>Delete</Button>
+                <p>{title}</p>
+                <p>{desc}</p>
+                {start && end ? (
+                    <small>From {dateFormatter(start)} To {dateFormatter(end)} </small>
+                ) : 
+                    <small>No event selected</small>}
+                <Button variant = 'secondary' onClick={() => buttonHandler(title)}>Delete</Button>
             </div>
         </div>
     )

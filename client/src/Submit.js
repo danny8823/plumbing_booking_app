@@ -25,11 +25,21 @@ export const SubmitForm = (props) => {
     }
 
     const bookHandler = async () => {
+        if(allDay) {
+            dispatch(postEvents({
+                title: props.title,
+                start: new Date(),
+                end: new Date (),
+                desc: props.desc,
+                allDay: allDay
+            }))
+        }
         dispatch(postEvents({
             title: props.title,
             start: new Date(2023, Number(props.startmonth)- 1, Number(props.start), Number(props.starttime), Number(props.startMin), 0 ),
             end: new Date (2023, Number(props.endmonth) - 1, Number(props.end), Number(props.endtime), Number(props.endMin), 0),
-            desc: props.desc
+            desc: props.desc,
+            allDay: allDay
         }))
     }
 
