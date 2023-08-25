@@ -11,21 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .container {
-  display: flex;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 800px 500px;
+  grid-template-rows: 575px 200px;
+  margin-top: 10px;
 }
+
 .calendar-container {
-  width: 850px;
   background-color: whitesmoke;
   border: 1px solid black;
   border-radius: 15px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .form-container {
-  width: 450px;
   background-color: whitesmoke;
   border: 1px solid black;
   border-radius: 15px;
@@ -38,11 +39,36 @@ code {
 }
 
 .display-container {
-  margin: 0 auto;
-  width: 1300px;
-  height: 150px;
+  width: 300px;
+  height: 240px;
   background-color: whitesmoke;
   border: 1px solid black;
   border-radius: 15px;
-  padding: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+
+#display {
+  text-align: center
+}
+
+#display_title {
+  font-size: 30px;
+}
+
+#display_buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+#display_buttons > img {
+  width: 20px;
+  margin-right: 5px;
+}
+
+#display-empty-msg {
+  text-align: center;
 }

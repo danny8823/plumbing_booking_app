@@ -14,8 +14,8 @@ export const EventForm = () => {
     const [endMonth, setEndMonth] = useState('end month')
     const [startDate, setStartDate] = useState('start date')
     const [endDate, setEndDate] = useState('end date')
-    const [title, setTitle] = useState('title')
-    const [description, setDescription] = useState('description')
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
     const [allDay, setAllDay] = useState(false)
     const [hide, setHide] = useState({
         display: 'flex'

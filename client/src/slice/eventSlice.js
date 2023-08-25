@@ -30,6 +30,17 @@ export const postEvents = createAsyncThunk('post/events', async ({title,start,en
     }
 })
 
+export const editEvent = createAsyncThunk('put/event', async({title,start,end,desc, allDay}) => {
+    try {
+        const { data } = await axios.put('/api/', {
+            title,start,end,desc,allDay
+        })
+        return data
+    } catch (error) {
+        throw new Error(error.message)
+    }
+})
+
 export const deleteEvent = createAsyncThunk('del/events', async ({title}) => {
     try {
         const {data} = await axios.delete(`/api/?title=${title}`)
@@ -43,7 +54,7 @@ const eventSlice = createSlice({
     name: 'events',
     initialState: {
         events: [],
-        single_event: {}
+        single_event: []
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -52,6 +63,12 @@ const eventSlice = createSlice({
         })
         builder.addCase(postEvents.fulfilled, (state,action) => {
             state.events.push(action.payload)
+        })
+        builder.addCase(fetchSingleEvent.fulfilled, (state,action) => {
+            state.single_event = action.payload
+        })
+        builder.addCase(editEvent.fulfilled,(state,action) => {
+            state.single_event = action.payload
         })
         builder.addCase(deleteEvent.fulfilled, (state, action) => {
             const eventToDelete = action.payload;

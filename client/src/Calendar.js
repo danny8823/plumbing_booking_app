@@ -28,6 +28,7 @@ export const Cal = () => {
     const dispatch = useDispatch()
 
     const events = useSelector((state) => state.events.events)
+    const single_Event = useSelector((state) => state.events.single_event)
 
     const [singleEvent, setSingleEvent ] = useState('')
     const [events_data, setEvents_data] = useState(undefined)
@@ -39,11 +40,11 @@ export const Cal = () => {
 
 
     const handleSelectEvent = (e) => {
-        setSingleEvent(e)
+        dispatch(fetchSingleEvent(e.title))
     }
 
     if(!events_data) {
-        return <h1>hld on</h1>
+        return <h1>Loading.....</h1>
     }
 
     const map_event = events.map(e => (
@@ -51,7 +52,9 @@ export const Cal = () => {
             title: e.title,
             start: new Date(e.startDate),
             end: new Date(e.endDate),
-            desc: e.description
+            desc: e.description,
+            allDay: e.allDay,
+            deleted: false,
         }
     ))
 
@@ -61,7 +64,7 @@ export const Cal = () => {
                 <div className = 'calendar-container'>
                     <Calendar 
                     localizer={localizer}
-                    defaultView={Views.WEEK} 
+                    defaultView={Views.MONTH} 
                     events = {map_event}
                     onSelectEvent={handleSelectEvent} 
                     startAccessor="start" 
@@ -72,9 +75,14 @@ export const Cal = () => {
                     style = {{ height:500, margin: "50px"}}
                     />
                 </div>
-                <EventForm/>
+                <div classname = 'event-form'>
+                    <EventForm/>
+                </div>
+                <div className = 'event-dispay'>
+                    <EventDisplay/>
+                </div>
             </div>
-            <EventDisplay event = {singleEvent}/>
+               
         </>
     )
 }
