@@ -30,29 +30,22 @@ export const Cal = () => {
     const events = useSelector((state) => state.events.events)
 
     const [singleEvent, setSingleEvent ] = useState('')
-    // const dateFormatter = (date) => {
-    //     const dateData = new Date(date)
-    //     return dateData.toLocaleString()
-    // }
+    const [events_data, setEvents_data] = useState(undefined)
 
-    // const buttonHandler = (title) => {
-    //     dispatch(deleteEvent({title: title}))
-    // }
-
-    
     useEffect(() => {
-        dispatch(fetchEvents())
-
-    },[dispatch])
+        dispatch(fetchEvents()) 
+        setEvents_data(events)
+    },[dispatch, events_data])
 
 
     const handleSelectEvent = (e) => {
         setSingleEvent(e)
     }
 
-    if(events[0] === undefined) {
+    if(!events_data) {
         return <h1>hld on</h1>
     }
+
     const map_event = events.map(e => (
         {
             title: e.title,
@@ -61,7 +54,6 @@ export const Cal = () => {
             desc: e.description
         }
     ))
-
 
     return (
         <>        

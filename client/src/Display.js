@@ -1,13 +1,12 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import {useDispatch} from 'react-redux'
-import { deleteEvent } from './slice/eventSlice'
+import { deleteEvent, fetchEvents } from './slice/eventSlice'
 
 export const EventDisplay = (props) => {
 
     const {title,start,end,desc} = props.event
     
-    console.log(title)
     const dispatch = useDispatch()
 
     const dateFormatter = (date) => {

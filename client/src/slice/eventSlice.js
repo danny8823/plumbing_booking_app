@@ -42,7 +42,7 @@ export const deleteEvent = createAsyncThunk('del/events', async ({title}) => {
 const eventSlice = createSlice({
     name: 'events',
     initialState: {
-        events: {},
+        events: [],
         single_event: {}
     },
     reducers: {},
@@ -53,10 +53,14 @@ const eventSlice = createSlice({
         builder.addCase(postEvents.fulfilled, (state,action) => {
             state.events.push(action.payload)
         })
-        builder.addCase(deleteEvent.fulfilled, (state,action) => {
-             const eventToDelete = action.payload
-             return state.events.filter(event => event.id !== eventToDelete)
-        })
+        builder.addCase(deleteEvent.fulfilled, (state, action) => {
+            const eventToDelete = action.payload;
+            const indexToDelete = state.events.findIndex(event => event.title === eventToDelete.title);
+      
+            if (indexToDelete !== -1) {
+              state.events.splice(indexToDelete, 1);
+            }
+          });
     }
 })
 
