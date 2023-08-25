@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal,Form } from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
-import { deleteEvent, fetchSingleEvent } from './slice/eventSlice'
+import { deleteEvent, fetchSingleEvent, updateEvent } from './slice/eventSlice'
 
 import edit_icon from './icons/edit_icon.png'
 import del_icon from './icons/delete_icon.png'
@@ -11,22 +11,31 @@ export const EventDisplay = () => {
     const dispatch = useDispatch()
 
     const [single_Event, setSingleEvent] = useState(undefined)
-    const [show, setShow] = useState(false)
 
-    const [title,setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState(undefined)
-    const [endDate, setEndDate] = useState(undefined)
-    const [startTime, setStartTime] = useState(undefined)
-    const [endTime, setEndTime] = useState(undefined)
+    useEffect(() => {
+            setSingleEvent(singleE)
+        },[singleE])
+
+    const [show, setShow] = useState(false)
 
     const handleClose = () => setShow(false)
 
-    useEffect(() => {
-        setSingleEvent(singleE)
-    },[singleE])
+    const [title,setTitle] = useState(singleE.title)
+    const [description, setDescription] = useState(singleE.description)
+    const [startDate, setStartDate] = useState(singleE.startDate)
+    const [endDate, setEndDate] = useState(singleE.endDate)
+   
+    console.log(singleE)
+    const editFormHandler = (e) => {
+        e.preventDefault()
 
-    
+        dispatch(updateEvent({id:singleE.id, title, description,startDate,endDate}))
+        
+        setDescription('')
+        setTitle('')
+        setStartDate(undefined)
+        setEndDate(undefined)
+    }
 
     const dateFormatter = (date) => {
         const dateData = new Date(date)
@@ -38,20 +47,6 @@ export const EventDisplay = () => {
         setSingleEvent(undefined)
     }
 
-    const editHandler = (id) => {
-        setShow(true)
-    }
-
-    const editFormHandler = (e) => {
-        e.preventDefault()
-        setDescription('')
-        setTitle('')
-        setStartDate(undefined)
-        setEndDate(undefined)
-        setStartTime(undefined)
-        setEndTime(undefined)
-    }
-    
     const dateDisplay = () => {
         if(single_Event.allDay) {
             return <small>Appointed book for all day</small>
@@ -61,7 +56,11 @@ export const EventDisplay = () => {
             return <small>No event selected</small>
         }
     }
-    
+
+    const editHandler = () => {
+        setShow(true)
+    }
+
     if(single_Event === undefined) {
         return <div className = 'display-container'>
                     <p id = 'display-empty-msg'>Select event to display</p>
@@ -93,23 +92,15 @@ export const EventDisplay = () => {
                         </Form.Group>
                         <Form.Group className="mb-3" >
                             <Form.Label>Description</Form.Label>
-                            <Form.Control type="input" placeholder={single_Event.description} onChange = {(e) => setDescription(e.target.value)}/>
+                            <Form.Control type="input" placeholder={single_Event.description} value = {single_Event.desc} onChange = {(e) => setDescription(e.target.value)}/>
                         </Form.Group>
                         <Form.Group className="mb-3" >
-                            <Form.Label>Start Date</Form.Label>
-                            <Form.Control type="date" onChange={(e) => setStartDate(e.target.value)}/>
+                            <Form.Label>Start {`${new Date(single_Event.startDate)}`}</Form.Label>
+                            <Form.Control type= 'input' placeholder = {new Date(single_Event.startDate)} onChange={(e) => setStartDate(e.target.value)}/>
                         </Form.Group>
                         <Form.Group className="mb-3" >
-                            <Form.Label>End Date</Form.Label>
-                            <Form.Control type="date" onChange = {(e) => setEndDate(e.target.value)}/>
-                        </Form.Group>
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Start time</Form.Label>
-                            <Form.Control type="time" onChange = {(e) => setStartTime(e.target.value)}/>
-                        </Form.Group>   
-                        <Form.Group className="mb-3" >
-                            <Form.Label>End time</Form.Label>
-                            <Form.Control type="time" onChange = {(e) => setEndTime(e.target.value)}/>
+                            <Form.Label>End {`${new Date(single_Event.endDate)}`}</Form.Label>
+                            <Form.Control type="input" placeholder = {new Date(single_Event.endDate)}onChange = {(e) => setEndDate(e.target.value)}/>
                         </Form.Group>
                         <Button variant='primary' onClick={handleClose} type='submit'>Save Changes</Button>
                     </Form>

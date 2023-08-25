@@ -19,6 +19,17 @@ export const fetchSingleEvent = createAsyncThunk('get/event', async(title) => {
     }
 })
 
+export const updateEvent = createAsyncThunk('put/event', async ({id, title,description ,startDate,endDate}) => {
+    try {
+        const {data} = await axios.put(`/api/${id}`, {
+            title,description,startDate,endDate
+        })
+        return data
+    } catch (error) {
+        throw new Error(error.message)
+    }
+})
+
 export const postEvents = createAsyncThunk('post/events', async ({title,start,end,desc, allDay}) => {
     try {
         const {data} = await axios.post('/api/', {
